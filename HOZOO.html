@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Unbanned Request</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #25D366;
+            --primary-dark: #128C7E;
+            --secondary: #075E54;
+            --accent: #34B7F1;
+            --light: #f0f0f0;
+            --dark: #1a1a1a;
+            --gray: #3b3b3b;
+            --white: #ffffff;
+            --gradient: linear-gradient(135deg, #0a2e38, var(--secondary), var(--primary-dark));
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --card-border: rgba(255, 255, 255, 0.15);
+        }
+
+        body {
+            background: var(--gradient);
+            color: var(--white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(37, 211, 102, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(52, 183, 241, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(7, 94, 84, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            margin-top: 20px;
+            border: 1px solid var(--card-border);
+            position: relative;
+            z-index: 1;
+            animation: containerSlide 0.8s ease-out;
+        }
+
+        @keyframes containerSlide {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .logo-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            font-size: 70px;
+            color: var(--primary);
+            filter: drop-shadow(0 5px 15px rgba(37, 211, 102, 0.3));
+            animation: logoPulse 2s infinite alternate;
+        }
+
+        @keyframes logoPulse {
+            from {
+                transform: scale(1);
+            }
+            to {
+                transform: scale(1.05);
+            }
+        }
+
+        .logo-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+            opacity: 0.3;
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        h1 {
+            font-size: 42px;
+            margin-bottom: 15px;
+            color: var(--white);
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(to right, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: var(--light);
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            min-width: 120px;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--light);
+        }
+
+        .visitor-counter {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 15px;
+            margin: 20px auto;
+            text-align: center;
+            max-width: 300px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .counter-title {
+            font-size: 16px;
+            color: var(--light);
+            margin-bottom: 8px;
+        }
+
+        .counter-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .counter-reset {
+            font-size: 12px;
+            color: var(--light);
+            margin-top: 5px;
+            opacity: 0.8;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--light);
+            font-size: 18px;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+            font-size: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 18px 20px 18px 60px;
+            border: none;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 17px;
+            color: var(--dark);
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.5);
+            background: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .info-message {
+            color: var(--accent);
+            font-size: 14px;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 20px 40px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--white);
+            border: none;
+            border-radius: 15px;
+            font-size: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            width: 100%;
+            margin-top: 20px;
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(37, 211, 102, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            background: var(--gray);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn:disabled:hover::before {
+            left: -100%;
+        }
+
+        .ai-assistant {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .ai-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .ai-icon {
+            font-size: 28px;
+            color: var(--accent);
+            animation: aiFloat 3s infinite ease-in-out;
+        }
+
+        @keyframes aiFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .ai-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .ai-content {
+            color: var(--light);
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        .ai-tip {
+            background: rgba(52, 183, 241, 0.2);
+            border-left: 4px solid var(--accent);
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 25px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .feature-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--white);
+        }
+
+        .feature-desc {
+            font-size: 14px;
+            color: var(--light);
+        }
+
+        .whatsapp-image {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+        }
+
+        .whatsapp-image img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .image-caption {
+            margin-top: 15px;
+            font-size: 14px;
+            color: var(--light);
+            font-style: italic;
+        }
+
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            color: var(--light);
+            font-size: 15px;
+            width: 100%;
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .floating-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            border-radius: 50%;
+            background: var(--primary);
+            animation: float 20s infinite linear;
+        }
+
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            top: 60%;
+            right: 10%;
+            animation-delay: -5s;
+            background: var(--accent);
+        }
+
+        .shape:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            bottom: 20%;
+            left: 20%;
+            animation-delay: -10s;
+            background: var(--primary-dark);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            100% {
+                transform: translate(100px, 100px) rotate(360deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 32px;
+            }
+            
+            .logo {
+                font-size: 50px;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <div class="logo">
+                    <i class="fab fa-whatsapp"></i>
+                </div>
+                <div class="logo-glow"></div>
+            </div>
+            <h1>WhatsApp Unbanned Request</h1>
+            <p class="subtitle">Layanan profesional untuk memulihkan akun WhatsApp Anda</p>
+            
+            <div class="visitor-counter">
+                <div class="counter-title">Total Pengguna Yang Menggunakan Web</div>
+                <div class="counter-value" id="visitorCount">0</div>
+                <div class="counter-reset">Total Pengguna Yang telah Menggukan Web Kami</div>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number">95%</div>
+                    <div class="stat-label">Tingkat Keberhasilan</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Layanan Dukungan</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">1000+</div>
+                    <div class="stat-label">Akun Dipulihkan</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="whatsapp-image">
+            <img src="https://files.catbox.moe/n2sigd.jpg" alt="WhatsApp Business Banned Screenshot">
+            <div class="image-caption">Contoh pesan banned dari WhatsApp Business yang sering diterima pengguna</div>
+        </div>
+
+        <form id="unbannedForm">
+            <div class="form-group">
+                <label for="fullName"><i class="fas fa-user"></i> Nama Lengkap</label>
+                <div class="input-with-icon">
+                    <div class="input-icon">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <input type="text" id="fullName" placeholder="Masukkan nama lengkap Anda" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="phoneNumber"><i class="fas fa-phone"></i> Nomor WhatsApp yang Dibanned</label>
+                <div class="input-with-icon">
+                    <div class="input-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <input type="text" id="phoneNumber" placeholder="Contoh: +628123456789 atau +11234567890" required>
+                </div>
+                <div class="info-message" id="phoneInfo">Format: +[kode negara][nomor telepon] (contoh: +62, +1, +44, dll)</div>
+                <div class="error-message" id="phoneError">Format nomor tidak valid. Gunakan format: +[kode negara][nomor telepon]</div>
+            </div>
+
+            <button type="submit" class="btn" id="submitBtn">
+                <i class="fas fa-paper-plane"></i> Kirim Permohonan Sekarang
+            </button>
+        </form>
+
+        <div class="ai-assistant">
+            <div class="ai-header">
+                <div class="ai-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="ai-title">Asisten AI WhatsApp Recovery</div>
+            </div>
+            <div class="ai-content">
+                <p>Asisten AI kami akan membantu memilih pesan terbaik untuk permohonan unbanned WhatsApp Anda. Sistem kami secara otomatis akan:</p>
+                <div class="ai-tip">
+                    <strong>Tips AI:</strong> Pastikan nomor WhatsApp diawali dengan kode negara yang benar (contoh: +62 untuk Indonesia, +1 untuk AS, +44 untuk UK) dan sertakan screenshot bukti banned untuk meningkatkan peluang keberhasilan.
+                </div>
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="feature-title">Aman & Terpercaya</div>
+                <div class="feature-desc">Proses pengajuan yang aman dan terjamin kerahasiaannya</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div class="feature-title">Cepat & Efisien</div>
+                <div class="feature-desc">Pengajuan langsung ke tim support WhatsApp</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <div class="feature-title">Multi Bahasa</div>
+                <div class="feature-desc">Pesan dalam berbagai bahasa untuk jangkauan global</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <div class="feature-title">Dukungan Penuh</div>
+                <div class="feature-desc">Bantuan lengkap selama proses pemulihan</div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 WhatsApp Unbanned Request. Semua hak dilindungi. | Layanan profesional pemulihan akun WhatsApp</p>
+    </footer>
+
+    <script>
+        // Sistem penghitung pengunjung
+        function initializeVisitorCounter() {
+            // Mendapatkan tanggal hari ini dalam format YYYY-MM-DD
+            const today = new Date().toISOString().split('T')[0];
+            
+            // Mendapatkan data dari localStorage
+            const storedDate = localStorage.getItem('visitorDate');
+            const storedCount = localStorage.getItem('visitorCount');
+            
+            let count = 0;
+            
+            // Jika tanggal di localStorage sama dengan hari ini, gunakan count yang ada
+            if (storedDate === today && storedCount) {
+                count = parseInt(storedCount);
+            } else {
+                // Jika tanggal berbeda (hari baru), reset count
+                count = 0;
+                localStorage.setItem('visitorDate', today);
+            }
+            
+            // Tambah count
+            count++;
+            
+            // Simpan ke localStorage
+            localStorage.setItem('visitorCount', count.toString());
+            
+            // Update tampilan
+            document.getElementById('visitorCount').textContent = count;
+            
+            // Cek apakah sudah jam 12 malam untuk reset
+            checkMidnightReset();
+        }
+        
+        function checkMidnightReset() {
+            const now = new Date();
+            const tomorrow = new Date(now);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            tomorrow.setHours(0, 0, 0, 0);
+            
+            const timeUntilMidnight = tomorrow.getTime() - now.getTime();
+            
+            // Set timeout untuk reset di tengah malam
+            setTimeout(() => {
+                // Reset counter
+                localStorage.setItem('visitorCount', '0');
+                document.getElementById('visitorCount').textContent = '0';
+                
+                // Set interval untuk reset setiap 24 jam
+                setInterval(() => {
+                    localStorage.setItem('visitorCount', '0');
+                    document.getElementById('visitorCount').textContent = '0';
+                }, 24 * 60 * 60 * 1000); // 24 jam
+            }, timeUntilMidnight);
+        }
+        
+        // Inisialisasi counter saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', initializeVisitorCounter);
+
+        // Validasi nomor telepon untuk berbagai kode negara
+        function validatePhoneNumber(phone) {
+            // Regex untuk memvalidasi nomor telepon internasional
+            // Format: + diikuti oleh 1-15 digit angka
+            const phoneRegex = /^\+\d{1,15}$/;
+            return phoneRegex.test(phone);
+        }
+
+        // Fungsi untuk mendapatkan pesan acak dengan gambar
+        function getRandomMessage(fullName, phoneNumber) {
+            const messages = [
+                `Gentile Team di Supporto WhatsApp,
+
+Mi chiamo [${fullName}] e sono un utente ufficiale di WhatsApp. Scrivo per chiedere gentilmente una revisione del blocco permanente del mio account con il numero ${phoneNumber}.
+
+Utilizzo solo l'app ufficiale di WhatsApp e rispetto sempre i Termini di Servizio (https://www.whatsapp.com/legal/terms-of-service). Non capisco il motivo del blocco e desidererei cortesemente una verifica più approfondita.
+
+WhatsApp è molto importante per le mie attività quotidiane e per la mia comunicazione personale e professionale. Le chiedo quindi, con rispetto, di valutare il ripristino del mio account.
+
+Grazie per la Vostra attenzione e collaborazione.
+Resto in attesa di un Vostro gentile riscontro.
+
+Cordiali saluti,
+[${fullName}]`,
+
+                `Hola, equipo de soporte de WhatsApp:
+
+Soy el propietario de la cuenta con el número ${phoneNumber}. Recientemente, mi cuenta ha sido bloqueada permanentemente sin que sepa el motivo. Creo que siempre he cumplido con los Términos de servicio de WhatsApp y nunca he tenido la intención de cometer ninguna infracción.
+
+Les agradecería que revisaran y desbloquearan mi cuenta, ya que esta cuenta es muy importante para mi comunicación personal y laboral.
+
+Gracias por su atención y ayuda.
+
+Atentamente,
+[${fullName}]`,
+
+                `Hello my respected and beloved WhatsApp messenger My WhatsApp account was suddenly blocked, why is that?Please restore my WhatsApp account ${phoneNumber}. I feel no guilt and I have not violated any of Mark Zuckerberg's rules. So why is my WhatsApp the victim?I need that WhatsApp now Please recover my WhatsApp account as soon as possible, thank you, best regards
+
+[${fullName}]`,
+
+                `Hola, un cordial saludo WhatsApp Mi cuenta de WhatsApp está sujeta a una prohibición de bloqueo permanente.WhatsApp messenger cómo restaurarlo Intenté enviar una comparación pero no fue aceptada, sigue siendo rechazada He leído las reglas y mi sitio web de WhatsApp no ha violado ninguna, ¿por qué mi cuenta de WhatsApp está prohibida?No acepto ser la víctima. Si no hay problema, por favor, vuelve.Mi WhatsApp volverá a estar disponible lo antes posible. Llevo mucho tiempo esperando, pero mi cuenta de WhatsApp sigue bloqueada. Este es mi número de cuenta de WhatsApp Messenger ${phoneNumber}. Por favor ayúdenme, gracias.`,
+
+                `Hello WhatsApp Support Team, I would like to submit an appeal regarding my WhatsApp number [${phoneNumber}], which has recently been suspended. I have always used WhatsApp in full compliance with the Terms of Service and Policies. I assure you that I have not engaged in any activities that violate your rules, such as spamming, using unauthorized applications, or any actions that could harm others. This number is very important for both my personal and essential communications. Therefore, I kindly and sincerely request that my WhatsApp number be restored and reinstated as soon as possible. I strongly believe this suspension was caused by a system error or automated detection, and I am fully committed to continuing to follow all WhatsApp policies in the future. Thank you for your attention and support.`,
+
+                `Здравствуйте, система WhatsApp. Плохие новости для меня, пользователя WhatsApp. Мой аккаунт WhatsApp заблокирован. Я в замешательстве, почему мой WhatsApp мог быть заблокирован, потому что я использую его только для того, чтобы сообщать новости моей семье и родственникам на работе. Я всего лишь гастарбайтер и, можно сказать, работаю за пределами города, чтобы содержать свою семью в моей родной деревне. Я прошу справедливости для моего WhatsApp, который, как я думаю, был заблокирован из-за системной ошибки. Я прошу как можно скорее восстановить мой WhatsApp. Спасибо.`,
+
+                `Gentile Supporto e Amministrazione WhatsApp, Meta Operating System. Permettetemi di presentarmi. Mi chiamo Laura Pausini (cantante pop internazionale).
+Sto riscontrando un grave problema con il mio account WhatsApp, che è stato bloccato unilateralmente e permanentemente. Vorrei il vostro aiuto per risolvere il problema attuale, ovvero il blocco unilaterale e permanente dell'account. Vi prego di aiutarmi con questo account WhatsApp: https://www.whatsapp.com/legal/terms-of-service?lang=id#terms-of-service-privacy-policy-and-user-data/${phoneNumber}
+senza alcuna spiegazione chiara. Questo sta seriamente ostacolando le mie attività quotidiane e le mie comunicazioni.
+Vi prego di sbloccare WhatsApp immediatamente. Sono un utente WhatsApp immediatamente!! Il mio account WhatsApp è molto importante per me per il mio lavoro e per i messaggi personali con i miei familiari più stretti. Vi prego di aiutarmi immediatamente. Grazie. Il mio número è di nuovo ${phoneNumber}`,
+
+                `Hello WhatsApp Support Team 
+
+Dear Sir, I am from FIFA Football. My partner's WhatsApp has been permanently blocked due to spam and I am asking Mark Zuckerberg to help me start a WhatsApp account.This is my phone number : ${phoneNumber}.
+
+So please grant my request because I need WhatsApp to manage the country's football. Please help me as soon as possible because I need it. Thank you for your help
+
+Best regards, [${fullName}]`,
+
+                `Hello Dear WhatsApp Platform Support, allow me to introduce myself, my name is [${fullName}], I would like to file an appeal regarding my WhatsApp account (https://wa.me/${phoneNumber}), which was blocked for spam by the WhatsApp system. While I was communicating with my brother, my WhatsApp account was suddenly blocked and I was shocked because my WhatsApp account was blocked for spam by the WhatsApp system which may have accidentally blocked my WhatsApp account. I request your immediate assistance within 24 hours, thank you.`,
+
+
+
+                `Hola, un cordial saludo WhatsApp Mi cuenta de WhatsApp está sujeta a una prohibición de bloqueo permanente.WhatsApp messenger cómo restaurarlo Intenté enviar una comparación pero no fue aceptada, sigue siendo rechazada He leído las reglas y mi sitio web de WhatsApp no ha violado ninguna, ¿por qué mi cuenta de WhatsApp está prohibida?No acepto ser la víctima. Si no hay problema, por favor, vuelve.Mi WhatsApp volverá a estar disponible lo atas possible. Llevo mucho tiempo esperando, pero mi cuenta de WhatsApp sigue bloqueada. Este es mi número de cuenta de WhatsApp Messenger (${phoneNumber}). Por favor ayúdenme, gracias.`,
+
+
+                `Hello, I am the President of the United States (US). I would like to appeal the ban on my WhatsApp account (${phoneNumber}). As President, I want to inform you that I only use WhatsApp to hold meetings with Presidents of other countries. I am requesting your help to restore my WhatsApp account to its original state. I am a respectable person, and I would like you to respond to my request thank you.`,
+                
+                
+                
+                 `Hello WhatsApp Support Team, I would like to submit an appeal regarding my WhatsApp number (${phoneNumber}). which has recently been suspended. I have always used WhatsApp in full compliance with the Terms of Service and Policies. I assure you that I have not engaged in any activities that violate your rules, such as spamming, using unauthorized applications, or any actions that could harm others. This number is very important for both my personal and essential communications. Therefore, I kindly and sincerely request that my WhatsApp number be restored and reinstated as soon as possible. I strongly believe this suspension was caused by a system error or automated detection, and I am fully committed to continuing to follow all WhatsApp policies in the future. Thank you for your attention and support.`,
+
+
+                `С наилучшими пожеланиями,
+
+Уважаемая служба поддержки WhatsApp!
+
+Рад связаться с вами по нашему официальному адресу электронной почты (support@support.whatsapp.com). Я пишу, чтобы сообщить о критической проблеме, связанной с моей учётной записью WhatsApp с номером > (${phoneNumber})., которая недавно была заблокирована навсегда.
+
+Хронология блокировки моей учётной записи WhatsApp:
+
+- Недавно я приобрёл новый номер и зарегистрировал WhatsApp.
+
+- Однако буквально через несколько минут после успешного входа я получил уведомление «Эта учётная запись больше не может использовать WhatsApp» и был перенаправлен на страницу «Зарегистрировать новый номер телефона».
+
+- Это меня очень удивило, так как я не мог никому отправлять или получать сообщения в WhatsApp.
+
+- Я искренне надеюсь, что команда WhatsApp сможет немедленно проверить и восстановить мою учётную запись, так как мне срочно нужен WhatsApp для связи с родителями, которые сейчас находятся за границей.
+
+Я подтверждаю, что я новый пользователь и не нарушал (Условия использования WhatsApp). Поэтому я прошу восстановить мой аккаунт, чтобы я мог использовать его по назначению.`,
+
+
+
+
+                `Здравствуйте, WhatsApp Messenger Справочный центр Я прошу вашего разрешения отфильтровать мою текущую проблему, моя проблема возникает по следующему номеру: (${phoneNumber}).@whatsapp.com, я хочу пояснить, что я являюсь пользователем, который соблюдает Правила использования WhatsApp и разумное общение с другими пользователями WhatsApp, не нарушая законы WhatsApp. Могу ли я получить вашу помощь? Пожалуйста, помогите, я готов ждать долго, пока мой аккаунт будет повторно активирован и блокировка с него будет снята, пожалуйста, дайте соответствующий ответ, и я буду ждать Ты.`,
+               
+               
+               
+                `Olá, WhatsApp Messenger, minha conta do WhatsApp Business foi bloqueada repentinamente, e foi permanentemente. Fiquei muito triste, embora eu só quisesse dizer à minha família que estava no hospital ou que estava com dor de cabeça. Por que foi bloqueado repentinamente? Fiquei um pouco confuso, embora também tenha baixado o WhatsApp na Play Store para não divulgar nada ilegal e não divulgar conteúdo +18. Fiquei um pouco irritado e triste, e este era meu único número. Eu também queria que meu número ou conta do WhatsApp fosse aberto, desbloqueado, com o número = (${phoneNumber}), obrigado.`,
+               
+               
+               
+                 `Dear WhatsApp Support Team,
+I am the owner of WhatsApp account registered under the number: [insert number, e.g., (${phoneNumber}).
+I have been informed that my account has been permanently banned due to a violation of WhatsApp’s policies.
+I respectfully submit this message as a formal appeal for a review of that decision.
+I fully acknowledge that my previous actions may have gone against WhatsApp’s terms, and I sincerely apologize. It was never my intention to cause harm or misuse the platform.
+I kindly ask for a second chance to access my account and I commit to strictly adhering to all rules and policies going forward.
+This account is crucial for my personal and professional communication, and I genuinely hope that this request can be considered with understanding.
+Thank you for your time and support.
+Sincerely,
+[${fullName}]`,
+
+
+                              `Xin chào đội ngũ hỗ trợ của tôi, thưa anh bạn đẹp trai, tôi là [${fullName}] và tôi muốn xác nhận rằng tài khoản của tôi đã bị tạm ngưng mà không có bất kỳ lỗi rõ ràng nào.
+
+Số tài khoản của tôi đã bị tạm ngưng vĩnh viễn (${phoneNumber}).
+
+Tôi chắc chắn đây không phải lỗi của tôi; rất có thể là do sự hiểu lầm giữа những người dùng khác và tài khoản của tôi.
+
+Tôi muốn xác nhận tài khoản của mình với bộ phận hỗ trợ của WhatsApp vì tôi muốn sử dụng lại nó cho việc học.
+
+Tôi hy vọng bạn có thể mở lại tài khoản và đền bù bằng cách mở lại tài khoản WhatsApp bị tạm ngưng của tôi.
+
+Tôi đã liên hệ với bạn qua ứng dụng và Gmail.
+
+https://wa.me/support
+nhưng phản hồi vẫn như vậy.
+
+Tôi cần xác nhận tài khoản của mình vì tôi cần sử dụng lại nó.
+
+Tôi cũng đã đọc và hiểu các điều khoản và điều kiện của WhatsApp.
+
+https://www.whatsapp.com/legal/terms-of-service
+Tôi không nghĩ mình đã làm bất cứ điều gì vi phạm các điều khoản và điều kiện trên trang đó. Tôi hy vọng đây chỉ là một sai lầm.
+
+Vui lòng giúp tôi hủy tạm ngưng tài khoản.`,
+               
+               `Hello Dear WhatsApp Platform Support, allow me to introduce myself, my name is [${fullName}], I would like to file an appeal regarding my WhatsApp account (https://wa.me/(${phoneNumber}), which was blocked for spam by the WhatsApp system. While I was communicating with my brother, my WhatsApp account was suddenly blocked and I was shocked because my WhatsApp account was blocked for spam by the WhatsApp system which may have accidentally blocked my WhatsApp account. I request your immediate assistance within 24 hours, thank you.`,
+               
+               
+              
+                 `हेलो व्हाट्सएप सपोर्ट, मैं जावा हूं, मैं अपने व्हाट्सएप अकाउंट को स्थायी रूप से ब्लॉक किए जाने के खिलाफ अपील करना चाहता हूं, मुझे नहीं लगता कि मैंने व्हाट्सएप नियमों और व्हाट्सएप सेवा की शर्तों का उल्लंघन किया है [https://www.whatsapp.com/legal/privacy-policy] मैं चाहता हूं कि व्हाट्सएप सपोर्ट मेरे व्हाट्सएप अकाउंट के उपयोग पर लगे प्रतिबंध को खोले/निरस्त कर दे [https://faq.whatsapp.com/1297640017664693/?helpref=hc_fnav], मैं एक हूं एक पर शिक्षक दूरदराज के इलाकों में, मुझे अपने परिवार के साथ संवाद करने के लिए This is My Numbers
+(${phoneNumber}) वास्तव में व्हाट्सएप की आवश्यकता है, कृपया व्हाट्सएप खातों के उपयोग पर प्रतिबंध हटाएं, कृपया मदद करें।.`,
+               
+
+                `Halo Tim WhatsApp,
+
+Saya ingin mengajukan permohonan untuk membuka kembali akses nomor saya (${phoneNumber}) yang saat ini diblokir.
+Saya meyakini bahwa nomor saya diblokir karena kesalahan sistem atau adanya aktivitas yang dianggap melanggar, namun saya pastikan bahwa saya tidak pernah menggunakan WhatsApp untuk tindakan yang melawan hukum, spam, maupun aktivitas yang merugikan pihak lain.
+
+Nomor ini sangat penting bagi saya untuk komunikasi keluarga, pekerjaan, serta aktivitas sehari-hari. Oleh karena itu, saya mohon dengan hormat agar tim WhatsApp dapat melakukan peninjauan kembali dan membuka blokir pada nomor saya.
+
+Saya siap mematuhi sepenuhnya Ketentuan Layanan dan Kebijakan WhatsApp ke depannya.
+
+Terima kasih atas perhatian dan bantuan yang diberikan.
+
+Hormat saya,
+[${fullName}]`
+            ];
+
+            // Pilih pesan acak
+            const randomIndex = Math.floor(Math.random() * messages.length);
+            return messages[randomIndex];
+        }
+
+        // Fungsi untuk mendapatkan subjek email acak
+        function getRandomSubject(phoneNumber) {
+            const subjects = [
+                `pedido de reparação de conta WhatsApp ${phoneNumber}`,
+                `Application for Recovery of Suspended WhatsApp Number ${phoneNumber}`,
+                `WhatsApp Account Recovery Request ${phoneNumber}`,
+                `Permohonan Pembukaan Blokir WhatsApp ${phoneNumber}`
+            ];
+
+            const randomIndex = Math.floor(Math.random() * subjects.length);
+            return subjects[randomIndex];
+        }
+
+        // Event listener untuk validasi real-time
+        document.getElementById('phoneNumber').addEventListener('input', function() {
+            const phoneNumber = this.value;
+            const errorElement = document.getElementById('phoneError');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            if (!validatePhoneNumber(phoneNumber)) {
+                errorElement.style.display = 'block';
+                submitBtn.disabled = true;
+            } else {
+                errorElement.style.display = 'none';
+                submitBtn.disabled = false;
+            }
+        });
+
+        document.getElementById('unbannedForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const fullName = document.getElementById('fullName').value;
+            const phoneNumber = document.getElementById('phoneNumber').value;
+            
+            if (!fullName || !phoneNumber) {
+                alert('Harap lengkapi semua field!');
+                return;
+            }
+            
+            if (!validatePhoneNumber(phoneNumber)) {
+                alert('Format nomor WhatsApp tidak valid. Gunakan format: +[kode negara][nomor telepon] (contoh: +62, +1, +44, dll)');
+                return;
+            }
+            
+            // Dapatkan pesan dan subjek acak
+            const message = getRandomMessage(fullName, phoneNumber);
+            const subject = getRandomSubject(phoneNumber);
+            
+            const emailBody = encodeURIComponent(message);
+            const emailSubject = encodeURIComponent(subject);
+            
+            // Daftar email penerima
+            const recipients = [
+                'support@support.whatsapp.com',
+                'support@whatsapp.com',
+                'iphone@support.whatsapp.com',
+                'smb@support.whatsapp.com',
+                'android@whatsapp.com'
+            ].join(',');
+            
+            // Membuka aplikasi email default dengan template yang sudah diisi
+            const mailtoLink = `mailto:${recipients}?subject=${emailSubject}&body=${emailBody}`;
+            window.location.href = mailtoLink;
+        });
+    </script>
+</body>
+</html>
